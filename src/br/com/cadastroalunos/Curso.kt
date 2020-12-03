@@ -1,6 +1,11 @@
 package br.com.cadastroalunos
 
-data class Curso (val nome: String, val codigoCurso: Int, var professorTitular: Professor, var professorAdjunto: Professor, val qtdMaxAlunos: Int) {
+data class Curso(val nome: String,
+                 val codigoCurso: Int,
+                 var professorTitular: Professor? = null,
+                 var professorAdjunto: Professor? = null,
+                 val qtdMaxAlunos: Int)
+{
 
     private val listaAlunosMatriculados = mutableListOf<Aluno>()
 

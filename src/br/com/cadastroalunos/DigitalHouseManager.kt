@@ -49,6 +49,7 @@ class DigitalHouseManager {
         if (curso != null && aluno != null && verificaVagasDisponiveis(curso)){
             val matricula = Matricula(aluno, curso)
             listaMatricula.add(matricula)
+            curso.adicionarUmAluno(aluno)
             println("Matricula realizada com sucesso")
         }else{
             println("Não há vagas para o curso")

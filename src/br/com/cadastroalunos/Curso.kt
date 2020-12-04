@@ -10,12 +10,15 @@ data class Curso(val nome: String,
     private val listaAlunosMatriculados = mutableListOf<Aluno>()
 
     fun adicionarUmAluno(umAluno: Aluno): Boolean{
-        if (!listaAlunosMatriculados.contains(umAluno)){
+        if (possoAdicionar(umAluno)){
             listaAlunosMatriculados.add(umAluno)
             return true
         }
         return false
     }
+
+    private fun possoAdicionar(umAluno: Aluno) =
+            !listaAlunosMatriculados.contains(umAluno) && listaAlunosMatriculados.size < qtdMaxAlunos
 
     fun excluirAluno(umAluno: Aluno){
         if (listaAlunosMatriculados.contains(umAluno)){

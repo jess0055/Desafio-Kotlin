@@ -2,15 +2,20 @@ package br.com.cadastroalunos
 
 class DigitalHouseManager {
 
-    val listaAlunos = mutableListOf<Aluno>()
-    val listaProfessor = mutableListOf<Professor>()
-    val listaCurso = mutableListOf<Curso>()
-    val listaMatricula = mutableListOf<Matricula>()
+    private val listaAlunos = mutableListOf<Aluno>()
+    private val listaProfessor = mutableListOf<Professor>()
+    private val listaCurso = mutableListOf<Curso>()
+    private val listaMatricula = mutableListOf<Matricula>()
 
 
     fun registrarCurso(nome: String, codigoCurso: Int, quantidadeMaximaDeAlunos: Int){
         val novoCurso = Curso(nome = nome, codigoCurso = codigoCurso, qtdMaxAlunos = quantidadeMaximaDeAlunos)
-        listaCurso.add(novoCurso)
+            if (!listaCurso.contains(novoCurso)){
+                listaCurso.add(novoCurso)
+                println("Curso de ${novoCurso.nome} registrado com sucesso")
+            }else{
+                println("O curso de ${novoCurso.nome} já está registrado")
+            }
     }
 
     fun excluirCurso(codigoCurso: Int){
@@ -22,12 +27,22 @@ class DigitalHouseManager {
 
     fun registrarProfessorAdjunto(nome: String, sobrenome: String, codigoProfessor: Int, quantidadeDeHoras: Int){
         val novoProfAdjunto = Adjunto(quantidadeDeHoras, nome, sobrenome, 0, codigoProfessor)
-        listaProfessor.add(novoProfAdjunto)
+        if (!listaProfessor.contains(novoProfAdjunto)){
+            listaProfessor.add(novoProfAdjunto)
+            println("Professor adjunto ${novoProfAdjunto.nome} registrado com sucesso")
+        }else{
+            println("O professor adjunto ${novoProfAdjunto.nome} já está registrado")
+        }
     }
 
     fun registrarProfessorTitular(nome: String , sobrenome: String, codigoProfessor: Int, especialidade: String){
         val novoProfTitular = Titular(especialidade, nome, sobrenome, 0, codigoProfessor)
-        listaProfessor.add(novoProfTitular)
+        if (!listaProfessor.contains(novoProfTitular)) {
+            listaProfessor.add(novoProfTitular)
+            println("Professor titular ${novoProfTitular.nome} registrado com sucesso")
+        }else{
+            println("O professor titular ${novoProfTitular.nome} já está registrado")
+        }
     }
 
     fun excluirProfessor(codigoProfessor: Int){
@@ -39,20 +54,33 @@ class DigitalHouseManager {
 
     fun matricularAluno(nome: String, sobrenome: String, codigoAluno: Int){
         val novoAluno = Aluno(nome, sobrenome, codigoAluno)
-        listaAlunos.add(novoAluno)
+        if (!listaAlunos.contains(novoAluno)) {
+            listaAlunos.add(novoAluno)
+            println("Aluno ${novoAluno.nome} matriculado com sucesso")
+        }else{
+            println("O aluno ${novoAluno.nome} já está matriculado")
+        }
+
     }
 
     fun matricularAluno(codigoAluno: Int, codigoCurso: Int){
         val aluno = encontrarAluno(codigoAluno)
         val curso = encontrarCurso(codigoCurso)
 
-        if (curso != null && aluno != null && verificaVagasDisponiveis(curso)){
-            val matricula = Matricula(aluno, curso)
-            listaMatricula.add(matricula)
-            curso.adicionarUmAluno(aluno)
-            println("Matricula realizada com sucesso")
+        if (curso != null && aluno != null){
+               if(curso.adicionarUmAluno(aluno)){
+                   val novaMatricula = Matricula(aluno, curso)
+                   listaMatricula.add(novaMatricula)
+                   println("Aluno ${aluno.nome} matriculado no curso de ${curso.nome} com sucesso. Data da matricula ${novaMatricula.dataMatricula}")
+               }else{
+                   if (encontraMatricula(curso, aluno)){
+                       println("Aluno ${aluno.nome} já está matriculado no curso de ${curso.nome}")
+                   }else{
+                       println("Quantidade maxima de ${curso.qtdMaxAlunos} vagas já preenchidas para o curso de ${curso.nome}")
+                   }
+               }
         }else{
-            println("Não há vagas para o curso")
+            println("Dados para matricula não encontrados")
         }
     }
 
@@ -62,8 +90,16 @@ class DigitalHouseManager {
         val curso = encontrarCurso(codigoCurso)
 
         if (titular != null && adjunto != null && curso != null){
-            curso.professorAdjunto = adjunto
-            curso.professorTitular = titular
+
+            if (curso.professorAdjunto == null && curso.professorTitular == null){
+                curso.professorAdjunto = adjunto
+                curso.professorTitular = titular
+                println("Professores ${titular.nome} e ${adjunto.nome} alocados no curso ${curso.nome}")
+            }else{
+             println("O curso ${curso.nome} já possui os professores ${curso.professorTitular?.nome} e ${curso.professorAdjunto?.nome} alocados")
+            }
+        }else{
+            println("Dados para alocação não encontrados")
         }
     }
 
@@ -87,8 +123,6 @@ class DigitalHouseManager {
         return alunoEncontrado
     }
 
-    private fun verificaVagasDisponiveis(curso: Curso) = curso.qtdMaxAlunos == listaAlunos.size
-
     private fun encontrarProfessor(codigoProfessor: Int): Professor? {
         var professorEncontrado: Professor? = null
         listaProfessor.forEach{professor->
@@ -98,4 +132,19 @@ class DigitalHouseManager {
         }
         return professorEncontrado
     }
+
+    private fun encontraMatricula(curso: Curso, aluno: Aluno): Boolean{
+     var aux = false
+      listaMatricula.forEach{matricula->
+          if (matricula.curso == curso && matricula.aluno == aluno){
+              aux = true
+          }
+      }
+        return aux
+    }
+
+
+
+
+
 }

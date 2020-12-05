@@ -1,4 +1,4 @@
-package br.com.cadastroalunos
+package br.com.digitalhousemanager
 
 data class Curso(val nome: String,
                  val codigoCurso: Int,
@@ -17,17 +17,17 @@ data class Curso(val nome: String,
         return false
     }
 
-    private fun possoAdicionar(umAluno: Aluno) =
-            !listaAlunosMatriculados.contains(umAluno) && listaAlunosMatriculados.size < qtdMaxAlunos
-
     fun excluirAluno(umAluno: Aluno){
         if (listaAlunosMatriculados.contains(umAluno)){
             listaAlunosMatriculados.remove(umAluno)
-            println("Aluno removido")
+            println("Aluno ${umAluno.nome} removido".separador())
         }else{
-            println("Aluno não encontrado")
+            println("Aluno não encontrado".separador())
         }
     }
+
+    private fun possoAdicionar(umAluno: Aluno) =
+            !listaAlunosMatriculados.contains(umAluno) && listaAlunosMatriculados.size < qtdMaxAlunos
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

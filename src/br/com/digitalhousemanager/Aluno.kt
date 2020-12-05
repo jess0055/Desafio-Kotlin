@@ -1,4 +1,4 @@
-package br.com.cadastroalunos
+package br.com.digitalhousemanager
 
 data class Aluno (val nome: String, val sobrenome: String, val codigoAluno: Int) {
     override fun equals(other: Any?): Boolean {

@@ -1,4 +1,4 @@
-package br.com.cadastroalunos
+package br.com.digitalhousemanager
 
 import java.util.*
 

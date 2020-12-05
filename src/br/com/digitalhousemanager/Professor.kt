@@ -1,4 +1,4 @@
-package br.com.cadastroalunos
+package br.com.digitalhousemanager
 
 open class Professor (val nome: String, val sobrenome: String, val tempoCasa: Int, val codigoProfessor: Int) {
 

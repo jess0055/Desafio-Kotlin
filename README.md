@@ -1,5 +1,9 @@
 # Desafio-Kotlin
 
+## Diagrama UML
+
+![uml desafio](https://github.com/jess0055/Desafio-Kotlin/blob/59d2e77fdbc3d849f9f878af889d464ebd9ad5c0/Desafio%20Kotlin-uml-jessfer.jpg)
+
 ## Parte A
 1. Criar um diagrama de classes que modele a classe Aluno. A princípio, um aluno possui um nome (String), um sobrenome (String) e um código de aluno (Integer).
 2. Implementar a classe criando os atributos necessários.
@@ -86,3 +90,4 @@ lista.
 4. Alocar um professor titular e um adjunto para cada curso.
 5. Matricular dois alunos no curso de Full Stack.
 6. Matricular três alunos no curso de Android.
+
